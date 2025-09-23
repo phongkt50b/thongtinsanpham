@@ -25,22 +25,10 @@
     .accordion-header[aria-expanded="true"] i {
         transform: rotate(180deg);
     }
-    .lazy-image {
-        opacity: 0;
-        transition: opacity 0.5s ease-in-out;
-    }
-    .lazy-image-loaded {
-        opacity: 1;
+    .image-placeholder {
+      position: relative;
     }
   </style>
-<script type="importmap">
-{
-  "imports": {
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.20.0",
-    "marked": "https://aistudiocdn.com/marked@^16.3.0"
-  }
-}
-</script>
 </head>
 <body class="antialiased min-h-screen bg-gray-50">
 
@@ -118,7 +106,6 @@
   </main>
   
   <script id="image-config-data" type="application/json">
-   
 {
   "company-intro-image": [
     "company-01.jpg",
@@ -289,52 +276,39 @@
       ]
     };
 
-    let imageConfig = null;
-
-    function getImageConfigData() {
-        if (!imageConfig) {
-            try {
-                const configElement = document.getElementById('image-config-data');
-                imageConfig = JSON.parse(configElement.textContent);
-            } catch (e) {
-                console.error("Failed to parse image config JSON:", e);
-                imageConfig = {}; // Prevent further errors
-            }
-        }
-        return imageConfig;
-    }
-
     function setupAccordion(containerId) {
         const accordionContainer = document.getElementById(containerId);
         if (!accordionContainer) return;
 
-        const items = accordionContainer.querySelectorAll('.accordion-item');
-
-        items.forEach(item => {
-            const header = item.querySelector('.accordion-header');
-            const content = item.querySelector('.accordion-content');
+        accordionContainer.querySelectorAll('.accordion-header').forEach(header => {
+            const content = document.getElementById(header.getAttribute('aria-controls'));
+            if (!content) return;
 
             const observer = new ResizeObserver(() => {
                 if (header.getAttribute('aria-expanded') === 'true') {
-                    content.style.maxHeight = content.scrollHeight + 'px';
+                    requestAnimationFrame(() => {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    });
                 }
             });
             observer.observe(content);
 
             header.addEventListener('click', () => {
                 const isExpanded = header.getAttribute('aria-expanded') === 'true';
-                
+
                 if (isExpanded) {
                     header.setAttribute('aria-expanded', 'false');
                     content.style.maxHeight = null;
                 } else {
                     header.setAttribute('aria-expanded', 'true');
+                    
                     if (content.dataset.loaded !== 'true') {
                         loadProductDetails(content.id, content);
                         content.dataset.loaded = 'true';
                     }
-                    content.style.maxHeight = content.scrollHeight + 'px';
                     
+                    content.style.maxHeight = content.scrollHeight + 'px';
+
                     setTimeout(() => {
                       header.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     }, 300);
@@ -343,54 +317,46 @@
         });
     }
 
-    function activateLazyLoading(container) {
-        const lazyImages = container.querySelectorAll('.lazy-image');
-        if ('IntersectionObserver' in window) {
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        const imageContainer = img.parentElement;
-                        img.src = img.dataset.src;
-                        img.onload = () => {
-                            img.classList.add('lazy-image-loaded');
-                            imageContainer.classList.remove('animate-pulse', 'bg-gray-200');
-                        };
-                        img.onerror = () => {
-                           imageContainer.style.display = 'none';
-                        }
-                        observer.unobserve(img);
-                    }
-                });
-            }, { rootMargin: '0px 0px 200px 0px' });
-
-            lazyImages.forEach(img => observer.observe(img));
-        } else { // Fallback for older browsers
-            lazyImages.forEach(img => {
-                const imageContainer = img.parentElement;
-                img.src = img.dataset.src;
-                img.classList.add('lazy-image-loaded');
-                imageContainer.classList.remove('animate-pulse', 'bg-gray-200');
-            });
-        }
-    }
-
-    function renderStaticContent(productId, container) {
-        let linksSectionHtml = '';
+    function loadProductDetails(productId, container) {
+        const config = JSON.parse(document.getElementById('image-config-data').textContent);
+        const imageFiles = (config[productId] || []).filter(Boolean);
         const links = productLinks[productId] || [];
+
+        if (links.length === 0 && imageFiles.length === 0) {
+            container.innerHTML = `
+                <div class="p-5 border-t border-gray-200">
+                    <p class="text-center text-gray-500 py-4">Chưa có thông tin cho sản phẩm này.</p>
+                </div>`;
+            return;
+        }
+
+        let imagesHtml = '';
+        if (imageFiles.length > 0) {
+            imagesHtml = `
+                <div class="grid grid-cols-1 gap-6">
+                    ${imageFiles.map(src => `
+                        <div class="image-placeholder bg-gray-200 rounded-lg min-h-[200px] flex justify-center items-center overflow-hidden">
+                            <div class="spinner animate-spin rounded-full h-8 w-8 border-b-2 border-red-500"></div>
+                            <img data-src="images/${src}" alt="Hình ảnh sản phẩm" class="lazy-image absolute w-full h-full object-cover opacity-0 transition-opacity duration-500">
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+        
+        let linksSectionHtml = '';
         if (links.length > 0) {
-            const linksHtml = links.map(link => `
-                <li class="flex items-start">
-                    <i class="ri-file-pdf-2-line mr-2 mt-1 text-red-500 flex-shrink-0"></i>
-                    <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="text-red-700 hover:underline hover:text-red-900 transition-colors">
-                        ${link.text}
-                    </a>
-                </li>
-            `).join('');
             linksSectionHtml = `
                 <div class="mt-8 pt-6 border-t border-gray-200">
                     <h4 class="text-lg font-semibold text-gray-700 mb-4">Tài liệu tham khảo</h4>
-                    <ul class="space-y-3 list-none p-0">${linksHtml}</ul>
+                    <ul class="space-y-3 list-none p-0">${links.map(link => `
+                        <li class="flex items-start">
+                            <i class="ri-file-pdf-2-line mr-2 mt-1 text-red-500 flex-shrink-0"></i>
+                            <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="text-red-700 hover:underline hover:text-red-900 transition-colors">
+                                ${link.text}
+                            </a>
+                        </li>
+                    `).join('')}</ul>
                 </div>
             `;
         }
@@ -403,21 +369,29 @@
                 </button>
             </div>`;
 
-        const imageGalleryPlaceholder = `
-            <div class="image-gallery-container">
-                <div class="flex justify-center items-center py-10">
-                    <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-red-600"></div>
-                </div>
-            </div>`;
-        
-        const finalHtml = `
+        container.innerHTML = `
             <div class="p-5 border-t border-gray-200">
-                ${imageGalleryPlaceholder}
+                ${imagesHtml}
                 ${linksSectionHtml}
                 ${collapseButtonHtml}
             </div>
         `;
-        container.innerHTML = finalHtml;
+
+        container.querySelectorAll('.lazy-image').forEach(img => {
+            const placeholder = img.parentElement;
+            const spinner = placeholder.querySelector('.spinner');
+
+            img.onload = () => {
+                if (spinner) spinner.style.display = 'none';
+                placeholder.classList.remove('bg-gray-200', 'min-h-[200px]', 'flex', 'items-center', 'justify-center');
+                img.classList.remove('opacity-0', 'absolute');
+                img.classList.add('relative');
+            };
+            img.onerror = () => {
+                placeholder.style.display = 'none';
+            };
+            img.src = img.dataset.src;
+        });
 
         const collapseButton = container.querySelector('.collapse-button');
         if (collapseButton) {
@@ -431,83 +405,31 @@
             });
         }
     }
-
-    function loadAndRenderImages(productId, container) {
-        const imageGalleryContainer = container.querySelector('.image-gallery-container');
-        if (!imageGalleryContainer) return;
-
-        const config = getImageConfigData();
-        const imageFolderPath = 'images/';
-        const imageFiles = (config[productId] || []).filter(file => file && file.trim() !== '');
-
-        if (imageFiles.length > 0) {
-            const imagesHtml = imageFiles.map(src => `
-                <div class="image-container bg-gray-200 rounded-lg overflow-hidden animate-pulse min-h-[200px]">
-                    <img data-src="${imageFolderPath}${src}"
-                         alt="Hình ảnh sản phẩm"
-                         class="lazy-image rounded-lg shadow-md w-full h-auto object-cover">
-                </div>
-            `).join('');
-            imageGalleryContainer.innerHTML = `<div class="grid grid-cols-1 gap-6">${imagesHtml}</div>`;
-            activateLazyLoading(imageGalleryContainer);
-        } else {
-             imageGalleryContainer.innerHTML = ''; // No images, remove spinner
-        }
-    }
-
-    function loadProductDetails(productId, container) {
-        const links = productLinks[productId] || [];
-        const config = getImageConfigData();
-        const imageFiles = config[productId] || [];
-
-        if (links.length === 0 && imageFiles.length === 0) {
-            container.innerHTML = `
-                <div class="p-5 border-t border-gray-200">
-                    <p class="text-center text-gray-500 py-4">Chưa có thông tin cho sản phẩm này.</p>
-                </div>
-            `;
-            return;
-        }
-
-        // Step 1: Render static content (links, buttons) and image placeholder INSTANTLY
-        renderStaticContent(productId, container);
-
-        // Step 2: Load and render images ASYNCHRONOUSLY
-        // Use a small timeout to allow the initial render to complete before starting image loading
-        setTimeout(() => {
-            loadAndRenderImages(productId, container);
-        }, 0);
-    }
     
     function loadCompanyIntro() {
-        try {
-            const container = document.getElementById('company-intro-image');
-            if (!container) return;
-            const config = getImageConfigData();
-            const imageFiles = (config['company-intro-image'] || []).filter(file => file && file.trim() !== '');
-            if (imageFiles.length > 0) {
-                const imagesHtml = imageFiles.map(file => `
-                    <div class="image-container-intro">
-                        <img src="images/${file}" alt="Hình ảnh giới thiệu" class="rounded-lg shadow-md w-full h-auto" loading="lazy" onerror="this.parentElement.style.display='none'">
-                    </div>
-                `).join('');
-                container.innerHTML = `
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden p-5">
-                        <div class="grid grid-cols-1 gap-6">${imagesHtml}</div>
-                    </div>
-                `;
-            }
-        } catch (error) {
-            console.error('Lỗi khi tải hình ảnh giới thiệu:', error);
-            const container = document.getElementById('company-intro-image');
-            if(container) {
-                container.innerHTML = `<p class="text-red-500 p-4">Không thể tải được hình ảnh giới thiệu.</p>`;
-            }
+        const container = document.getElementById('company-intro-image');
+        if (!container) return;
+        
+        const config = JSON.parse(document.getElementById('image-config-data').textContent);
+        const imageFiles = (config['company-intro-image'] || []).filter(Boolean);
+
+        if (imageFiles.length > 0) {
+            const imagesHtml = imageFiles.map(file => `
+                <div class="image-container-intro">
+                    <img src="images/${file}" alt="Hình ảnh giới thiệu" class="rounded-lg shadow-md w-full h-auto" loading="lazy" onerror="this.parentElement.style.display='none'">
+                </div>
+            `).join('');
+            container.innerHTML = `
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden p-5">
+                    <div class="grid grid-cols-1 gap-6">${imagesHtml}</div>
+                </div>
+            `;
+        } else {
+            container.innerHTML = '';
         }
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-        getImageConfigData(); // Pre-parse JSON on load
         loadCompanyIntro();
         setupAccordion('main-products-accordion');
         setupAccordion('rider-products-accordion');
