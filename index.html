@@ -174,6 +174,14 @@
             const header = item.querySelector('.accordion-header');
             const content = item.querySelector('.accordion-content');
 
+            // Use ResizeObserver to automatically adjust max-height when content size changes (e.g., images load)
+            const observer = new ResizeObserver(() => {
+                if (header.getAttribute('aria-expanded') === 'true') {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                }
+            });
+            observer.observe(content);
+
             header.addEventListener('click', async () => {
                 const isExpanded = header.getAttribute('aria-expanded') === 'true';
                 
@@ -181,12 +189,14 @@
                     header.setAttribute('aria-expanded', 'false');
                     content.style.maxHeight = null;
                 } else {
+                    header.setAttribute('aria-expanded', 'true');
                     if (content.dataset.loaded !== 'true') {
-                        await loadProductDetails(content.id);
+                        await loadProductDetails(content.id, content);
                         content.dataset.loaded = 'true';
                     }
-                    header.setAttribute('aria-expanded', 'true');
+                    // Set initial height, ResizeObserver will correct it as images load.
                     content.style.maxHeight = content.scrollHeight + 'px';
+                    
                     setTimeout(() => {
                       header.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     }, 300);
@@ -209,26 +219,26 @@
                             imageContainer.classList.remove('animate-pulse', 'bg-gray-200');
                         };
                         img.onerror = () => {
-                           imageContainer.style.display = 'none';
+                           imageContainer.style.display = 'none'; // Hide container if image fails
                         }
                         observer.unobserve(img);
                     }
                 });
-            }, { rootMargin: '0px 0px 200px 0px' }); // Start loading when image is 200px from viewport
+            }, { rootMargin: '0px 0px 200px 0px' });
 
             lazyImages.forEach(img => observer.observe(img));
         } else {
             // Fallback for older browsers
             lazyImages.forEach(img => {
+                const imageContainer = img.parentElement;
                 img.src = img.dataset.src;
                 img.classList.add('lazy-image-loaded');
-                img.parentElement.classList.remove('animate-pulse', 'bg-gray-200');
+                imageContainer.classList.remove('animate-pulse', 'bg-gray-200');
             });
         }
     }
 
-    async function loadProductDetails(productId) {
-        const container = document.getElementById(productId);
+    async function loadProductDetails(productId, container) {
         if (!container) return;
 
         container.innerHTML = `
@@ -238,12 +248,6 @@
                     <p class="ml-4 text-gray-600">Đang chuẩn bị nội dung...</p>
                 </div>
             </div>`;
-        
-        // This is needed to correctly calculate scrollHeight for the opening animation
-        const parent = container.parentElement.querySelector('.accordion-header');
-        if (parent.getAttribute('aria-expanded') !== 'true') {
-            container.style.maxHeight = '200px'; 
-        }
 
         try {
             const response = await fetch('images.json?v=' + Date.now());
@@ -316,17 +320,9 @@
                 });
             }
 
-            // Recalculate max-height after content is loaded
-            if (parent.getAttribute('aria-expanded') === 'true') {
-                 container.style.maxHeight = container.scrollHeight + 'px';
-            }
-
         } catch (error) {
             console.error('Lỗi khi tải chi tiết sản phẩm:', error);
             container.innerHTML = `<div class="p-5 border-t border-gray-200"><p class="text-red-500">Không thể tải được dữ liệu. Vui lòng thử lại sau.</p></div>`;
-             if (parent.getAttribute('aria-expanded') === 'true') {
-                 container.style.maxHeight = container.scrollHeight + 'px';
-            }
         }
     }
 
@@ -342,7 +338,9 @@
             const imageFiles = (imageConfig['company-intro-image'] || []).filter(file => file && file.trim() !== '');
             if (imageFiles.length > 0) {
                 const imagesHtml = imageFiles.map(file => `
-                    <img src="images/${file}" alt="Hình ảnh giới thiệu" class="rounded-lg shadow-md w-full h-auto" loading="lazy">
+                    <div class="image-container-intro">
+                        <img src="images/${file}" alt="Hình ảnh giới thiệu" class="rounded-lg shadow-md w-full h-auto" loading="lazy" onerror="this.parentElement.style.display='none'">
+                    </div>
                 `).join('');
                 container.innerHTML = `
                     <div class="bg-white rounded-lg shadow-lg overflow-hidden p-5">
