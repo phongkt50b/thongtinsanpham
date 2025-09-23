@@ -2,9 +2,9 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Sản phẩm - AIA Việt Nam</title>
+  <title>Sản phẩm - Nguyễn Thanh Phong - AIA Việt Nam</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Sản phẩm và giải pháp bảo hiểm ưu việt từ AIA Việt Nam">
+  <meta name="description" content="Sản phẩm và giải pháp bảo hiểm ưu việt từ AIA Việt Nam, tư vấn bởi Nguyễn Thanh Phong.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Secular+One&display=swap">
@@ -26,6 +26,14 @@
         transform: rotate(180deg);
     }
   </style>
+<script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.20.0",
+    "marked": "https://aistudiocdn.com/marked@^16.3.0"
+  }
+}
+</script>
 </head>
 <body class="antialiased min-h-screen bg-gray-50">
 
@@ -36,6 +44,14 @@
         <p class="text-lg text-gray-600 max-w-3xl mx-auto">
           Khám phá các giải pháp bảo hiểm toàn diện của AIA, được thiết kế để bảo vệ bạn và gia đình trước mọi rủi ro, đồng thời xây dựng một tương lai tài chính vững chắc.
         </p>
+      </div>
+
+      <!-- Company Intro Section -->
+      <div class="mb-16">
+        <h3 class="text-3xl font-bold text-gray-800 mb-8 border-l-4 border-red-600 pl-4">Giới thiệu về AIA Việt Nam</h3>
+        <div id="company-intro-image">
+           <!-- Images loaded by JS -->
+        </div>
       </div>
 
       <!-- Main Products Section -->
@@ -156,11 +172,13 @@
                 const imageFiles = imageConfig[productId].filter(file => file && file.trim() !== '');
                 
                 if (imageFiles.length === 0) {
-                     container.innerHTML = `
-                        <div class="p-5 border-t border-gray-200">
-                            <p class="text-gray-500">Chưa có hình ảnh cho sản phẩm này.</p>
-                        </div>
-                    `;
+                     if (productId.startsWith('main-') || productId.startsWith('rider-')) {
+                         container.innerHTML = `
+                            <div class="p-5 border-t border-gray-200">
+                                <p class="text-gray-500">Chưa có hình ảnh cho sản phẩm này.</p>
+                            </div>
+                        `;
+                     }
                     continue;
                 }
                 
@@ -169,29 +187,47 @@
                 const validImages = imageChecks.filter(result => result.status === 'ok').map(result => result.src);
 
                 if (validImages.length > 0) {
-                    const imagesHtml = validImages.map(src => `
-                        <img src="${src}" alt="Hình ảnh sản phẩm" class="rounded-lg shadow-md w-full h-auto">
-                    `).join('');
+                    if (productId === 'company-intro-image') {
+                        const imagesHtml = validImages.map(src => `
+                            <img src="${src}" alt="Hình ảnh giới thiệu" class="rounded-lg shadow-md w-full h-auto">
+                        `).join('');
 
-                    container.innerHTML = `
-                        <div class="p-5 border-t border-gray-200">
-                            <div class="grid grid-cols-1 gap-6">
-                                ${imagesHtml}
+                        container.innerHTML = `
+                            <div class="bg-white rounded-lg shadow-lg overflow-hidden p-5">
+                                <div class="grid grid-cols-1 gap-6">
+                                    ${imagesHtml}
+                                </div>
                             </div>
-                        </div>
-                    `;
+                        `;
+                    } else {
+                        // Standard template for product images
+                        const imagesHtml = validImages.map(src => `
+                            <img src="${src}" alt="Hình ảnh sản phẩm" class="rounded-lg shadow-md w-full h-auto">
+                        `).join('');
+
+                        container.innerHTML = `
+                            <div class="p-5 border-t border-gray-200">
+                                <div class="grid grid-cols-1 gap-6">
+                                    ${imagesHtml}
+                                </div>
+                            </div>
+                        `;
+                    }
                 } else {
-                    container.innerHTML = `
-                        <div class="p-5 border-t border-gray-200">
-                            <p class="text-gray-500">Chưa có hình ảnh cho sản phẩm này.</p>
-                        </div>
-                    `;
+                     if (productId.startsWith('main-') || productId.startsWith('rider-')) {
+                        container.innerHTML = `
+                            <div class="p-5 border-t border-gray-200">
+                                <p class="text-gray-500">Không tìm thấy hình ảnh cho sản phẩm này.</p>
+                            </div>
+                        `;
+                    }
                 }
             }
         } catch (error) {
             console.error('Lỗi khi tải hình ảnh sản phẩm:', error);
         }
     }
+
 
     window.addEventListener('DOMContentLoaded', () => {
         loadProductImages().then(() => {
