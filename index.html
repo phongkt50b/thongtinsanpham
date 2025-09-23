@@ -182,7 +182,7 @@
                     content.style.maxHeight = content.scrollHeight + 'px';
                     setTimeout(() => {
                       header.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    }, 300); // Delay to allow animation to start
+                    }, 300);
                 }
             });
         });
@@ -192,7 +192,20 @@
         const container = document.getElementById(productId);
         if (!container) return;
 
-        container.innerHTML = `<div class="p-5 border-t border-gray-200 text-center"><p class="text-gray-500">Đang tải dữ liệu sản phẩm...</p></div>`;
+        container.innerHTML = `
+            <div class="p-5 border-t border-gray-200">
+                <div class="flex justify-center items-center py-10">
+                    <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-red-600"></div>
+                    <p class="ml-4 text-gray-600">Đang tải dữ liệu sản phẩm...</p>
+                </div>
+            </div>`;
+        
+        // This is needed to correctly calculate scrollHeight for the opening animation
+        const parent = container.parentElement.querySelector('.accordion-header');
+        if (parent.getAttribute('aria-expanded') !== 'true') {
+            container.style.maxHeight = '200px'; // Temp height for spinner
+        }
+
 
         try {
             const response = await fetch('images.json?v=' + Date.now());
@@ -202,26 +215,34 @@
             const imageFolderPath = 'images/';
             const imageFiles = (imageConfig[productId] || []).filter(file => file && file.trim() !== '');
 
-            let contentHtml = '';
-            
+            let imageSectionHtml = '';
             if (imageFiles.length > 0) {
-                const imagesHtml = imageFiles.map(src => `<img src="${imageFolderPath}${src}" alt="Hình ảnh sản phẩm" class="rounded-lg shadow-md w-full h-auto" loading="lazy">`).join('');
-                contentHtml += `<div class="grid grid-cols-1 gap-6">${imagesHtml}</div>`;
+                const imagesHtml = imageFiles.map(src => `
+                    <div class="image-container bg-gray-100 rounded-lg overflow-hidden">
+                        <img src="${imageFolderPath}${src}" 
+                             alt="Hình ảnh sản phẩm" 
+                             class="rounded-lg shadow-md w-full h-auto object-cover" 
+                             loading="lazy" 
+                             onerror="this.closest('.image-container').style.display='none';">
+                    </div>
+                `).join('');
+                imageSectionHtml = `<div class="grid grid-cols-1 gap-6">${imagesHtml}</div>`;
             } else {
-                contentHtml += `<p class="text-gray-500">Chưa có hình ảnh cho sản phẩm này.</p>`;
+                imageSectionHtml = `<p class="text-center text-gray-500 py-4">Chưa có hình ảnh cho sản phẩm này.</p>`;
             }
 
+            let linksSectionHtml = '';
             const links = productLinks[productId] || [];
             if (links.length > 0) {
                 const linksHtml = links.map(link => `
                     <li class="flex items-start">
-                        <i class="ri-file-pdf-2-line mr-2 mt-1 text-red-500"></i>
+                        <i class="ri-file-pdf-2-line mr-2 mt-1 text-red-500 flex-shrink-0"></i>
                         <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="text-red-700 hover:underline hover:text-red-900 transition-colors">
                             ${link.text}
                         </a>
                     </li>
                 `).join('');
-                contentHtml += `
+                linksSectionHtml = `
                     <div class="mt-8 pt-6 border-t border-gray-200">
                         <h4 class="text-lg font-semibold text-gray-700 mb-4">Tài liệu tham khảo</h4>
                         <ul class="space-y-3 list-none p-0">${linksHtml}</ul>
@@ -237,11 +258,18 @@
                   </button>
               </div>`;
 
-            container.innerHTML = `<div class="p-5 border-t border-gray-200">${contentHtml}</div>` + collapseButtonHtml;
+            container.innerHTML = `
+                <div class="p-5 border-t border-gray-200">
+                    ${imageSectionHtml}
+                    ${linksSectionHtml}
+                    ${collapseButtonHtml}
+                </div>
+            `;
             
-            const collapseButton = container.parentElement.querySelector('.collapse-button');
+            const collapseButton = container.querySelector('.collapse-button');
             if (collapseButton) {
-                collapseButton.addEventListener('click', () => {
+                collapseButton.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     const header = container.previousElementSibling;
                     if (header && header.classList.contains('accordion-header')) {
                         header.click();
@@ -250,9 +278,18 @@
                 });
             }
 
+            // Recalculate max-height after content is loaded
+            if (parent.getAttribute('aria-expanded') === 'true') {
+                 container.style.maxHeight = container.scrollHeight + 'px';
+            }
+
+
         } catch (error) {
             console.error('Lỗi khi tải chi tiết sản phẩm:', error);
             container.innerHTML = `<div class="p-5 border-t border-gray-200"><p class="text-red-500">Không thể tải được dữ liệu. Vui lòng thử lại sau.</p></div>`;
+             if (parent.getAttribute('aria-expanded') === 'true') {
+                 container.style.maxHeight = container.scrollHeight + 'px';
+            }
         }
     }
 
@@ -268,7 +305,7 @@
             const imageFiles = (imageConfig['company-intro-image'] || []).filter(file => file && file.trim() !== '');
             if (imageFiles.length > 0) {
                 const imagesHtml = imageFiles.map(file => `
-                    <img src="images/${file}" alt="Hình ảnh giới thiệu" class="rounded-lg shadow-md w-full h-auto">
+                    <img src="images/${file}" alt="Hình ảnh giới thiệu" class="rounded-lg shadow-md w-full h-auto" loading="lazy">
                 `).join('');
                 container.innerHTML = `
                     <div class="bg-white rounded-lg shadow-lg overflow-hidden p-5">
