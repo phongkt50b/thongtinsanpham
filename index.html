@@ -25,6 +25,13 @@
     .accordion-header[aria-expanded="true"] i {
         transform: rotate(180deg);
     }
+    .lazy-image {
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+    }
+    .lazy-image-loaded {
+        opacity: 1;
+    }
   </style>
 <script type="importmap">
 {
@@ -188,6 +195,38 @@
         });
     }
 
+    function activateLazyLoading(container) {
+        const lazyImages = container.querySelectorAll('.lazy-image');
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        const imageContainer = img.parentElement;
+                        img.src = img.dataset.src;
+                        img.onload = () => {
+                            img.classList.add('lazy-image-loaded');
+                            imageContainer.classList.remove('animate-pulse', 'bg-gray-200');
+                        };
+                        img.onerror = () => {
+                           imageContainer.style.display = 'none';
+                        }
+                        observer.unobserve(img);
+                    }
+                });
+            }, { rootMargin: '0px 0px 200px 0px' }); // Start loading when image is 200px from viewport
+
+            lazyImages.forEach(img => observer.observe(img));
+        } else {
+            // Fallback for older browsers
+            lazyImages.forEach(img => {
+                img.src = img.dataset.src;
+                img.classList.add('lazy-image-loaded');
+                img.parentElement.classList.remove('animate-pulse', 'bg-gray-200');
+            });
+        }
+    }
+
     async function loadProductDetails(productId) {
         const container = document.getElementById(productId);
         if (!container) return;
@@ -196,16 +235,15 @@
             <div class="p-5 border-t border-gray-200">
                 <div class="flex justify-center items-center py-10">
                     <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-red-600"></div>
-                    <p class="ml-4 text-gray-600">Đang tải dữ liệu sản phẩm...</p>
+                    <p class="ml-4 text-gray-600">Đang chuẩn bị nội dung...</p>
                 </div>
             </div>`;
         
         // This is needed to correctly calculate scrollHeight for the opening animation
         const parent = container.parentElement.querySelector('.accordion-header');
         if (parent.getAttribute('aria-expanded') !== 'true') {
-            container.style.maxHeight = '200px'; // Temp height for spinner
+            container.style.maxHeight = '200px'; 
         }
-
 
         try {
             const response = await fetch('images.json?v=' + Date.now());
@@ -218,12 +256,10 @@
             let imageSectionHtml = '';
             if (imageFiles.length > 0) {
                 const imagesHtml = imageFiles.map(src => `
-                    <div class="image-container bg-gray-100 rounded-lg overflow-hidden">
-                        <img src="${imageFolderPath}${src}" 
-                             alt="Hình ảnh sản phẩm" 
-                             class="rounded-lg shadow-md w-full h-auto object-cover" 
-                             loading="lazy" 
-                             onerror="this.closest('.image-container').style.display='none';">
+                    <div class="image-container bg-gray-200 rounded-lg overflow-hidden animate-pulse min-h-[200px]">
+                        <img data-src="${imageFolderPath}${src}"
+                             alt="Hình ảnh sản phẩm"
+                             class="lazy-image rounded-lg shadow-md w-full h-auto object-cover">
                     </div>
                 `).join('');
                 imageSectionHtml = `<div class="grid grid-cols-1 gap-6">${imagesHtml}</div>`;
@@ -262,10 +298,12 @@
                 <div class="p-5 border-t border-gray-200">
                     ${imageSectionHtml}
                     ${linksSectionHtml}
-                    ${collapseButtonHtml}
+                    ${(imageFiles.length > 0 || links.length > 0) ? collapseButtonHtml : ''}
                 </div>
             `;
             
+            activateLazyLoading(container);
+
             const collapseButton = container.querySelector('.collapse-button');
             if (collapseButton) {
                 collapseButton.addEventListener('click', (e) => {
@@ -282,7 +320,6 @@
             if (parent.getAttribute('aria-expanded') === 'true') {
                  container.style.maxHeight = container.scrollHeight + 'px';
             }
-
 
         } catch (error) {
             console.error('Lỗi khi tải chi tiết sản phẩm:', error);
