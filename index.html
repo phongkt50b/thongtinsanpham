@@ -111,6 +111,52 @@
   </main>
   
   <script>
+    const productLinks = {
+      'main-prod-1': [
+        { text: 'Quy tắc và điều khoản - AIA Khoẻ Trọn Vẹn - Kế hoạch Trọn Đời', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/bao-ve-cuoc-song/aia-khoe-tron-ven/file-pdf/050625-Quy-tac-va-dieu-khoan-Bao-hiem-lien-ket-chung-AIA-Khoe-Tron-Ven-Ke-hoach-Tron-doi.pdf.coredownload.inline.pdf' },
+        { text: 'Quy tắc và điều khoản - AIA Khoẻ Trọn Vẹn - Kế hoạch Toàn Diện', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/bao-ve-cuoc-song/aia-khoe-tron-ven/file-pdf/Quy-tac-va-dieu-khoan-Bao-hiem-lien-ket-chung-AIA-Khoe-Tron-Ven-Ke-hoach-Toan-dien.pdf.coredownload.inline.pdf' },
+        { text: 'Quy tắc và điều khoản - AIA Khoẻ Trọn Vẹn - Kế hoạch Bền Vững', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/bao-ve-cuoc-song/aia-khoe-tron-ven/file-pdf/Quy-tac-va-dieu-khoan-Bao-hiem-lien-ket-chung-AIA-Khoe-Tron-Ven-Ke-hoach-Ben-vung.pdf.coredownload.inline.pdf' },
+        { text: 'Bảng tỷ lệ phí bảo hiểm cơ bản', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/bao-ve-cuoc-song/aia-khoe-tron-ven/file-pdf/Bieu-phi-San-pham-Bao-hiem-lien-ket-chung-AIA-Khoe-Tron-Ven.pdf' }
+      ],
+      'main-prod-2': [
+        { text: 'Quy tắc và điều khoản - AIA - Khoẻ Bình An', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/bao-ve-cuoc-song-va-tiet-kiem/aia-khoe-binh-an/3107-Agency-Quy-tac-va-dieu-khoan-Bao-hiem-lien-ket-chung-AIA-Khoe-Binh-An.pdf' },
+        { text: 'Bảng tỷ lệ phí', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/bao-ve-cuoc-song-va-tiet-kiem/aia-khoe-binh-an/3107-Agency%20-%20Bieu-phi-San-pham-Bao-hiem-lien-ket-chung-AIA-Khoe-Binh-An.pdf' }
+      ],
+      'main-prod-3': [
+        { text: 'Quy tắc và điều khoản - AIA - Vững Tương Lai', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/bao-ve-cuoc-song-va-tiet-kiem/aia-vung-tuong-lai/3107-Agency-Quy-tac-va-dieu-khoan-Bao-hiem-lien-ket-chung-AIA-Vung-Tuong-Lai.pdf' },
+        { text: 'Bảng tỷ lệ phí', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/bao-ve-cuoc-song-va-tiet-kiem/aia-vung-tuong-lai/3107-Agency%20-Bieu-phi-San-pham-Bao-hiem-lien-ket-chung-AIA-Vung-Tuong-Lai.pdf' }
+      ],
+      'main-prod-4': [
+        { text: 'Quy tắc và điều khoản - An Bình Ưu Việt', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/bao-ve-cuoc-song/an-binh-uu-viet/2025-file/300725-Quy-tac-va-dieu-khoan-bao-hiem-an-binh-uu-viet-mau.pdf' },
+        { text: 'Biểu phí sản phẩm', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/bao-ve-cuoc-song/an-binh-uu-viet/2025-file/bieu-phi-bao-hiem-an-binh-uu-viet-cap-nhat-thang-7-2025%20(final).pdf' }
+      ],
+      'main-prod-5': [
+        { text: 'Quy tắc và điều khoản - Sức khoẻ Bùng Gia lực', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/suc-khoe/benh-hiem-ngheo/tron-tam-an/Quy-tac-va-dieu-khoan-Bao-hiem-suc-khoe-Bung-Gia-Luc.pdf' },
+        { text: 'Quy tắc và điều khoản - An Bình Ưu Việt', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/suc-khoe/benh-hiem-ngheo/tron-tam-an/Quy-tac-va-dieu-khoan-Bao-hiem-An-Binh-Uu-Viet.pdf' },
+        { text: 'Biểu phí', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/suc-khoe/benh-hiem-ngheo/tron-tam-an/170725-Bieu-phi-goi-giai-phap-AIA-Tron-Tam-An.pdf' }
+      ],
+      'rider-prod-1': [
+        { text: 'Quy tắc và điều khoản - Sức khoẻ Bùng Gia Lực', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/suc-khoe/cham-soc-suc-khoe/bung-gia-luc/file-pdf/BHSK-Bung-Gia-Luc-Quy-tac-dieu-khoan-mau-25062024.pdf' },
+        { text: 'Biểu phí', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/suc-khoe/cham-soc-suc-khoe/bung-gia-luc/file-pdf/BHSK-Bung-Gia-Luc-Bieu-phi-san-pham-25062024.pdf' }
+      ],
+      'rider-prod-2': [
+        { text: 'Quy tắc và điều khoản - Bệnh hiểm nghèo 2.0', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/suc-khoe/benh-hiem-ngheo/bh-benh-hiem-ngheo-2025/050825-Quy-tac-va-dieu-khoan-Bao-hiem-Toan-dien-Benh-hiem-ngheo-2.0_Update%20STT.pdf' },
+        { text: 'Biểu phí', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/suc-khoe/benh-hiem-ngheo/bh-benh-hiem-ngheo-2025/bieu-phi-bao-hiem-toan-dien-benh-hiem-ngheo20.pdf' }
+      ],
+      'rider-prod-3': [
+        { text: 'Quy tắc và điều khoản - Bảo hiểm tai nạn', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/rui-ro-do-tai-nan/bh-tu-vong-va-thuong-tat-do-tai-nan/2025-file/300725-Quy-tac-va-dieu-khoan-bao-hiem-tu-vong-va-thuong-tat-do-tai-nan.pdf' },
+        { text: 'Biểu phí', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/rui-ro-do-tai-nan/bh-tu-vong-va-thuong-tat-do-tai-nan/Bieu_phi_san_pham_Bao_hiem_tu_vong_va_thuong_tat_do_tai_nan.pdf' }
+      ],
+      'rider-prod-4': [
+        { text: 'Quy tắc và điều khoản - Hỗ trợ viện phí', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/rui-ro-do-tai-nan/ho-tro-chi-phi-nam-vien-va-phau-thuat-do-tai-nan/300725-Quy-tac-va-dieu-khoan-bao-hiem-ho-tro-chi-phi-nam-vien.pdf' },
+        { text: 'Biểu phí', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/suc-khoe/cham-soc-suc-khoe/bao-hiem-ho-tro-chi-phi-nam-vien/BH-Ho-tro-chi-phi-nam-vien-bieu-phi-san-pham-052024.pdf' }
+      ],
+      'rider-prod-5': [
+        { text: 'Quy tắc và điều khoản - Miễn đóng phí 3.0', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/bao-ve-cuoc-song/bao-hiem-mien-thu-phi/2025-file/300725-Quy-tac-va-dieu-khoan-bao-hiem-mien-thu-phi-phien-ban-3.0.pdf' },
+        { text: 'Biểu phí', url: 'https://www.aia.com.vn/content/dam/vn-wise/san-pham/bao-ve-cuoc-song/bao-hiem-mien-thu-phi/Bieu_phi_san_pham_bo_sung_mien_thu_phi_phien_ban_3.0.pdf' }
+      ]
+    };
+
     function setupAccordion(containerId) {
         const accordionContainer = document.getElementById(containerId);
         if (!accordionContainer) return;
@@ -121,119 +167,125 @@
             const header = item.querySelector('.accordion-header');
             const content = item.querySelector('.accordion-content');
 
-            header.addEventListener('click', () => {
+            header.addEventListener('click', async () => {
                 const isExpanded = header.getAttribute('aria-expanded') === 'true';
                 
-                // Close all other accordions in the same group
-                items.forEach(otherItem => {
-                    if (otherItem !== item) {
-                        otherItem.querySelector('.accordion-header').setAttribute('aria-expanded', 'false');
-                        otherItem.querySelector('.accordion-content').style.maxHeight = null;
-                    }
-                });
-                
-                // Toggle the clicked accordion
                 if (isExpanded) {
                     header.setAttribute('aria-expanded', 'false');
                     content.style.maxHeight = null;
                 } else {
+                    if (content.dataset.loaded !== 'true') {
+                        await loadProductDetails(content.id);
+                        content.dataset.loaded = 'true';
+                    }
                     header.setAttribute('aria-expanded', 'true');
                     content.style.maxHeight = content.scrollHeight + 'px';
+                    setTimeout(() => {
+                      header.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 300); // Delay to allow animation to start
                 }
             });
         });
     }
 
-    async function loadProductImages() {
+    async function loadProductDetails(productId) {
+        const container = document.getElementById(productId);
+        if (!container) return;
+
+        container.innerHTML = `<div class="p-5 border-t border-gray-200 text-center"><p class="text-gray-500">Đang tải dữ liệu sản phẩm...</p></div>`;
+
         try {
-            // NOTE: This assumes 'images.json' and the 'images' folder are in the same directory as this HTML file.
-            const response = await fetch('images.json?v=' + Date.now()); // Add cache buster
-            if (!response.ok) {
-                throw new Error('Không thể tải file images.json');
-            }
+            const response = await fetch('images.json?v=' + Date.now());
+            if (!response.ok) throw new Error('Không thể tải file images.json');
             const imageConfig = await response.json();
+            
             const imageFolderPath = 'images/';
+            const imageFiles = (imageConfig[productId] || []).filter(file => file && file.trim() !== '');
 
-            // Function to check if an image URL is valid
-            const checkImage = (src) => {
-                return new Promise((resolve) => {
-                    const img = new Image();
-                    img.onload = () => resolve({ src, status: 'ok' });
-                    img.onerror = () => resolve({ src, status: 'error' });
-                    img.src = src;
+            let contentHtml = '';
+            
+            if (imageFiles.length > 0) {
+                const imagesHtml = imageFiles.map(src => `<img src="${imageFolderPath}${src}" alt="Hình ảnh sản phẩm" class="rounded-lg shadow-md w-full h-auto" loading="lazy">`).join('');
+                contentHtml += `<div class="grid grid-cols-1 gap-6">${imagesHtml}</div>`;
+            } else {
+                contentHtml += `<p class="text-gray-500">Chưa có hình ảnh cho sản phẩm này.</p>`;
+            }
+
+            const links = productLinks[productId] || [];
+            if (links.length > 0) {
+                const linksHtml = links.map(link => `
+                    <li class="flex items-start">
+                        <i class="ri-file-pdf-2-line mr-2 mt-1 text-red-500"></i>
+                        <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="text-red-700 hover:underline hover:text-red-900 transition-colors">
+                            ${link.text}
+                        </a>
+                    </li>
+                `).join('');
+                contentHtml += `
+                    <div class="mt-8 pt-6 border-t border-gray-200">
+                        <h4 class="text-lg font-semibold text-gray-700 mb-4">Tài liệu tham khảo</h4>
+                        <ul class="space-y-3 list-none p-0">${linksHtml}</ul>
+                    </div>
+                `;
+            }
+            
+            const collapseButtonHtml = `
+              <div class="mt-8 pt-6 text-center border-t border-gray-200">
+                  <button class="collapse-button text-red-600 border border-red-600 rounded-full px-5 py-2 hover:bg-red-600 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 inline-flex items-center">
+                      Thu gọn
+                      <i class="ri-arrow-up-s-line ml-2"></i>
+                  </button>
+              </div>`;
+
+            container.innerHTML = `<div class="p-5 border-t border-gray-200">${contentHtml}</div>` + collapseButtonHtml;
+            
+            const collapseButton = container.parentElement.querySelector('.collapse-button');
+            if (collapseButton) {
+                collapseButton.addEventListener('click', () => {
+                    const header = container.previousElementSibling;
+                    if (header && header.classList.contains('accordion-header')) {
+                        header.click();
+                        header.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
                 });
-            };
+            }
 
-            for (const productId in imageConfig) {
-                const container = document.getElementById(productId);
-                if (!container) continue;
+        } catch (error) {
+            console.error('Lỗi khi tải chi tiết sản phẩm:', error);
+            container.innerHTML = `<div class="p-5 border-t border-gray-200"><p class="text-red-500">Không thể tải được dữ liệu. Vui lòng thử lại sau.</p></div>`;
+        }
+    }
 
-                // Filter out empty strings from the config
-                const imageFiles = imageConfig[productId].filter(file => file && file.trim() !== '');
-                
-                if (imageFiles.length === 0) {
-                     if (productId.startsWith('main-') || productId.startsWith('rider-')) {
-                         container.innerHTML = `
-                            <div class="p-5 border-t border-gray-200">
-                                <p class="text-gray-500">Chưa có hình ảnh cho sản phẩm này.</p>
-                            </div>
-                        `;
-                     }
-                    continue;
-                }
-                
-                const imagePaths = imageFiles.map(file => `${imageFolderPath}${file}`);
-                const imageChecks = await Promise.all(imagePaths.map(checkImage));
-                const validImages = imageChecks.filter(result => result.status === 'ok').map(result => result.src);
+    async function loadCompanyIntro() {
+        try {
+            const container = document.getElementById('company-intro-image');
+            if (!container) return;
 
-                if (validImages.length > 0) {
-                    if (productId === 'company-intro-image') {
-                        const imagesHtml = validImages.map(src => `
-                            <img src="${src}" alt="Hình ảnh giới thiệu" class="rounded-lg shadow-md w-full h-auto">
-                        `).join('');
+            const response = await fetch('images.json?v=' + Date.now());
+            if (!response.ok) throw new Error('Network response was not ok');
+            const imageConfig = await response.json();
 
-                        container.innerHTML = `
-                            <div class="bg-white rounded-lg shadow-lg overflow-hidden p-5">
-                                <div class="grid grid-cols-1 gap-6">
-                                    ${imagesHtml}
-                                </div>
-                            </div>
-                        `;
-                    } else {
-                        // Standard template for product images
-                        const imagesHtml = validImages.map(src => `
-                            <img src="${src}" alt="Hình ảnh sản phẩm" class="rounded-lg shadow-md w-full h-auto">
-                        `).join('');
-
-                        container.innerHTML = `
-                            <div class="p-5 border-t border-gray-200">
-                                <div class="grid grid-cols-1 gap-6">
-                                    ${imagesHtml}
-                                </div>
-                            </div>
-                        `;
-                    }
-                } else {
-                     if (productId.startsWith('main-') || productId.startsWith('rider-')) {
-                        container.innerHTML = `
-                            <div class="p-5 border-t border-gray-200">
-                                <p class="text-gray-500">Không tìm thấy hình ảnh cho sản phẩm này.</p>
-                            </div>
-                        `;
-                    }
-                }
+            const imageFiles = (imageConfig['company-intro-image'] || []).filter(file => file && file.trim() !== '');
+            if (imageFiles.length > 0) {
+                const imagesHtml = imageFiles.map(file => `
+                    <img src="images/${file}" alt="Hình ảnh giới thiệu" class="rounded-lg shadow-md w-full h-auto">
+                `).join('');
+                container.innerHTML = `
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden p-5">
+                        <div class="grid grid-cols-1 gap-6">${imagesHtml}</div>
+                    </div>
+                `;
             }
         } catch (error) {
-            console.error('Lỗi khi tải hình ảnh sản phẩm:', error);
+            console.error('Lỗi khi tải hình ảnh giới thiệu:', error);
         }
     }
 
 
     window.addEventListener('DOMContentLoaded', () => {
-        loadProductImages().then(() => {
-            setupAccordion('main-products-accordion');
-            setupAccordion('rider-products-accordion');
-        });
+        loadCompanyIntro();
+        setupAccordion('main-products-accordion');
+        setupAccordion('rider-products-accordion');
     });
   </script>
 </body>
