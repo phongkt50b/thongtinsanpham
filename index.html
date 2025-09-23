@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Nguyễn Thanh Phong - AIA Việt Nam</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Nguyễn Thanh Phong - Tư vấn viên AIA Việt Nam: Bảo vệ tài sản, dòng tiền, thu nhập, tạo di sản bền vững.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Secular+One&display=swap">
+  <style>
+    :root {
+      --aia-red:#D4001A;
+      --aia-red-light:#E53445;
+      --aia-red-tint:#FBE5E7;
+      --aia-red-mid:#B80018;
+      --aia-red-deep:#8E0011;
+      --aia-grad-hero:linear-gradient(140deg,#D4001A 0%,#C80019 38%,#A80016 70%,#8E0011 100%);
+      --aia-grad-cta:linear-gradient(135deg,#D4001A 0%,#C40018 46%,#9F0012 100%);
+      --zalo-blue-1:#0A81FF;
+      --zalo-blue-2:#056BDA;
+      --fb-blue-1:#1877F2;
+      --fb-blue-2:#0F5EC5;
+    }
+    body {
+      font-family: ui-sans-serif, system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Secular One",sans-serif;
+      color:#222;
+      background:#fff;
+    }
+
+    /* HERO background with softened overlay */
+    .hero-gradient {
+      position:relative;
+      background:
+        var(--aia-grad-hero),
+        url('https://readdy.ai/api/search-image?query=Professional%20Vietnamese%20business%20consultant%20in%20modern%20office%20environment&width=1920&height=1080&seq=hero-bg&orientation=landscape');
+      background-size:cover;
+      background-position:center;
+    }
+    .hero-gradient:after {
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 22% 28%, rgba(255,255,255,.18), transparent 55%),
+        linear-gradient(to bottom, rgba(255,255,255,.10), rgba(0,0,0,.28));
+      mix-blend-mode:overlay;
+      pointer-events:none;
+    }
+
+    .nav-btn-active { @apply bg-red-600 text-white; }
+    .nav-btn { @apply px-4 py-2 rounded-full text-gray-700 hover:text-red-600 hover:bg-red-50 transition-all cursor-pointer whitespace-nowrap; }
+
+    /* Icon Buttons */
+    .btn-icon {
+      width:56px; height:56px;
+      display:flex; align-items:center; justify-content:center;
+      border-radius:50%;
+      background:rgba(255,255,255,.18);
+      border:1px solid rgba(255,255,255,.35);
+      backdrop-filter:blur(5px);
+      -webkit-backdrop-filter:blur(5px);
+      color:#fff;
+      transition:.28s;
+      position:relative;
+      box-shadow:0 6px 18px -8px rgba(0,0,0,.55), 0 2px 6px -2px rgba(0,0,0,.35);
+    }
+    .btn-icon:hover { transform:translateY(-4px); background:rgba(255,255,255,.3); border-color:rgba(255,255,255,.55); }
+    .btn-icon:active { transform:translateY(-1px); }
+
+    .btn-icon--phone {
+      background:linear-gradient(145deg,#ffffffee,#ffffffcc);
+      color:var(--aia-red);
+      border:1px solid #ffffffb5;
+    }
+    .btn-icon--phone:hover { background:#fff; }
+
+    .btn-icon--facebook {
+      background:linear-gradient(145deg,var(--fb-blue-1),var(--fb-blue-2));
+      border:none;
+    }
+    .btn-icon--facebook:hover { filter:brightness(1.06); }
+
+    /* Inline SVG Zalo */
+    .btn-icon--zalo {
+      background:linear-gradient(145deg,var(--zalo-blue-1),var(--zalo-blue-2));
+      border:none;
+      overflow:hidden;
+      position:relative;
+    }
+    .btn-icon--zalo:hover { filter:brightness(1.07); }
+    .btn-icon--zalo svg {
+      width:30px; height:30px;
+      display:block;
+      filter:drop-shadow(0 2px 4px rgba(0,0,0,.35));
+    }
+
+    .mini-icon-row .btn-icon { width:52px; height:52px; }
+
+    .sr-only {
+      position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+      overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
+    }
+
+    .floating-stack {
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .floating-stack .btn-icon { width:52px; height:52px; }
+
+    /* CTA Panel */
+    .cta-panel {
+      background:var(--aia-grad-cta);
+      position:relative;
+      overflow:hidden;
+      border-radius:30px;
+      padding:52px 48px 54px;
+      box-shadow:
+        0 28px 50px -18px rgba(119,0,13,.48),
+        0 12px 30px -10px rgba(119,0,13,.35),
+        0 3px 8px -2px rgba(0,0,0,.35);
+      color:#fff;
+      isolation:isolate;
+    }
+    .cta-panel:before,
+    .cta-panel:after {
+      content:"";
+      position:absolute;
+      width:420px; height:420px;
+      background:radial-gradient(circle at center, rgba(255,255,255,.20), transparent 70%);
+      top:-160px; right:-140px;
+      border-radius:50%;
+      opacity:.55;
+      mix-blend-mode:overlay;
+      pointer-events:none;
+    }
+    .cta-panel:after {
+      width:300px; height:300px;
+      top:auto; bottom:-120px; left:-100px;
+      background:radial-gradient(circle at center, rgba(255,255,255,.15), transparent 70%);
+    }
+    .cta-panel h3 { font-weight:700; line-height:1.15; letter-spacing:.3px; }
+    .cta-bullets li {
+      display:flex; gap:.75rem; font-size:1.02rem; line-height:1.45;
+      align-items:flex-start;
+    }
+    .cta-bullets li span.dot {
+      width:10px; height:10px; margin-top:.55rem;
+      background:#fff; border-radius:50%;
+      box-shadow:0 0 0 4px rgba(255,255,255,.20);
+    }
+    .mini-icon-row { display:flex; gap:14px; margin-top:14px; }
+
+    @media (max-width:1024px){
+      .cta-panel { padding:44px 40px 50px; }
+    }
+    @media (max-width:640px){
+      .cta-panel { padding:40px 32px 48px; border-radius:26px; }
+    }
+
+    .contact-grid { display:grid; gap:60px; }
+    @media (min-width:1024px){
+      .contact-grid { grid-template-columns:1fr 1fr; align-items:stretch; }
+    }
+
+    section { scroll-margin-top:80px; }
+    .fade-in { opacity:0; transform:translateY(30px); animation:fadeUp .9s cubic-bezier(.19,1,.22,1) forwards; }
+    .fade-in.delay-1 { animation-delay:.12s; }
+    .fade-in.delay-2 { animation-delay:.22s; }
+    .fade-in.delay-3 { animation-delay:.34s; }
+    @keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.20.0",
+    "marked": "https://aistudiocdn.com/marked@^16.3.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="antialiased min-h-screen bg-white">
+  <!-- NAV -->
+  <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-md shadow-sm z-50 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center py-4">
+        <div class="flex items-center">
+          <div class="w-10 h-10 bg-gradient-to-r from-[#D4001A] to-[#B80018] rounded-full flex items-center justify-center mr-3">
+            <span class="text-white font-bold text-lg">NP</span>
+          </div>
+          <h1 class="font-bold text-xl text-gray-800">Nguyễn Thanh Phong</h1>
+        </div>
+        <div id="mainNavButtons" class="hidden md:flex space-x-4 items-center">
+          <button data-target="home" class="nav-btn-active px-4 py-2 rounded-full transition-all cursor-pointer whitespace-nowrap">Trang chủ</button>
+          <button data-target="about" class="nav-btn">Về tôi</button>
+          <button data-target="services" class="nav-btn">Dịch vụ</button>
+          <a href="congcu.html" class="nav-btn">Công Cụ</a>
+          <a href="sanpham.html" class="nav-btn">Sản phẩm</a>
+          <a href="kehoach-taichinh.html" class="nav-btn">Kế hoạch tài chính</a>
+          <button data-target="contact" class="nav-btn">Liên hệ</button>
+        </div>
+        <button id="mobileToggle" class="md:hidden p-2 text-gray-600 w-10 h-10 flex items-center justify-center cursor-pointer">
+          <i class="ri-menu-line text-2xl"></i>
+        </button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="md:hidden px-4 pb-4 space-y-2 hidden">
+      <button data-target="home" class="block w-full text-left px-4 py-3 rounded-xl bg-red-600 text-white">Trang chủ</button>
+      <button data-target="about" class="block w-full text-left px-4 py-3 rounded-xl hover:bg-red-50 text-gray-700">Về tôi</button>
+      <button data-target="services" class="block w-full text-left px-4 py-3 rounded-xl hover:bg-red-50 text-gray-700">Dịch vụ</button>
+      <a href="congcu.html" class="block w-full text-left px-4 py-3 rounded-xl hover:bg-red-50 text-gray-700">Công Cụ</a>
+      <a href="sanpham.html" class="block w-full text-left px-4 py-3 rounded-xl hover:bg-red-50 text-gray-700">Sản phẩm</a>
+      <a href="kehoach-taichinh.html" class="block w-full text-left px-4 py-3 rounded-xl hover:bg-red-50 text-gray-700">Kế hoạch tài chính</a>
+      <button data-target="contact" class="block w-full text-left px-4 py-3 rounded-xl hover:bg-red-50 text-gray-700">Liên hệ</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home" class="pt-28 pb-20 hero-gradient text-white relative overflow-hidden min-h-screen flex items-center">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-[2]">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="text-left space-y-8 fade-in">
+          <div class="inline-block px-6 py-3 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium border border-white/30">
+            <i class="ri-shield-check-line mr-2"></i>Tư vấn viên AIA Việt Nam
+          </div>
+          <h1 class="text-4xl lg:text-6xl font-bold leading-tight">
+            Nguyễn Thanh Phong
+            <span class="block text-2xl lg:text-3xl font-normal mt-4 text-red-100">
+              Người đồng hành giúp bạn hoàn thành kế hoạch tài chính cuộc đời
+            </span>
+          </h1>
+          <p class="text-xl lg:text-2xl text-red-50 leading-relaxed">
+            Bảo vệ tài sản – Bảo vệ dòng tiền – Bảo vệ thu nhập – Tạo di sản bền vững cho gia đình bạn
+          </p>
+          <div class="flex gap-14 items-center pt-2">
+            <div class="flex gap-14">
+              <a href="tel:0967140556" class="btn-icon btn-icon--phone" title="Gọi">
+                <i class="ri-phone-line"></i><span class="sr-only">Gọi điện</span>
+              </a>
+              <a href="https://zalo.me/0967140556" target="_blank" rel="noopener" class="btn-icon btn-icon--zalo" title="Zalo">
+                <svg viewBox="0 0 48 48" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="zaloGrad" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+                      <stop offset="0" stop-color="#0A81FF"/><stop offset="1" stop-color="#056BDA"/>
+                    </linearGradient>
+                  </defs>
+                  <rect x="4" y="4" width="40" height="40" rx="12" fill="url(#zaloGrad)"/>
+                  <path fill="#fff" d="M30.6 17.2h-2.83l-4.41 11.2h2.83l.84-2.34h3.84l.85 2.34h2.9L30.6 17.2Zm-2.24 6.9 1.3-3.56 1.31 3.56h-2.61ZM16.2 28.58c.61.59 1.48.96 2.5.96 2.01 0 3.6-1.4 3.6-3.29 0-1.9-1.59-3.3-3.6-3.3s-3.6 1.4-3.6 3.3c0 .86.35 1.65.93 2.24l-.65 1.95c-.1.34.23.62.53.44l1.89-1.07Zm2.5-1.52c-.86 0-1.48-.56-1.48-1.43s.62-1.43 1.48-1.43 1.48.56 1.48 1.43-.62 1.43-1.48 1.43Z"/>
+                </svg>
+                <span class="sr-only">Zalo</span>
+              </a>
+              <a href="https://www.facebook.com/share/17NsPC5BhG/" target="_blank" rel="noopener" class="btn-icon btn-icon--facebook" title="Facebook">
+                <i class="ri-facebook-fill"></i><span class="sr-only">Facebook</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-center lg:justify-end fade-in delay-2">
+          <div class="relative">
+            <div class="w-80 h-80 lg:w-96 lg:h-96 rounded-3xl bg-white/10 backdrop-blur-sm p-6 shadow-2xl border border-white/20">
+              <img src="https://static.readdy.ai/image/a88e6637604e7df87ae98912dd74788f/6fd3fe817965d415159d64b6929673cc.jfif"
+                   alt="Nguyễn Thanh Phong - Tư vấn viên AIA"
+                   class="w-full h-full rounded-2xl object-cover object-top shadow-[0_10px_30px_-10px_rgba(0,0,0,.35)]">
+            </div>
+            <div class="absolute -top-6 -right-6 w-24 h-24 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg">
+              <i class="ri-award-line text-white text-3xl"></i>
+            </div>
+            <div class="absolute -bottom-6 -left-6 w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center shadow-lg">
+              <i class="ri-shield-check-line text-white text-2xl"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16 fade-in">
+        <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">Về tôi</h2>
+      </div>
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="space-y-8 fade-in delay-1">
+          <div class="bg-white p-8 rounded-2xl shadow-lg">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">Xin chào, tôi là Nguyễn Thanh Phong</h3>
+            <p class="text-lg text-gray-700 leading-relaxed mb-6">
+              Tôi không chỉ bán bảo hiểm – tôi đồng hành cùng bạn để xây dựng kế hoạch tài chính dài hạn, giúp bạn bảo vệ gia đình, chuẩn bị học phí cho con và an nhàn hưu trí.
+            </p>
+            <div class="space-y-4">
+              <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                  <i class="ri-building-line text-red-600"></i>
+                </div>
+                <div>
+                  <p class="font-semibold text-gray-900">Chức vụ</p>
+                  <p class="text-gray-600">Trưởng nhóm Tư vấn Bảo hiểm – AIA Việt Nam</p>
+                </div>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                  <i class="ri-award-line text-blue-600"></i>
+                </div>
+                <div>
+                  <p class="font-semibold text-gray-900">Chứng chỉ</p>
+                  <p class="text-gray-600">Học viên VIP115 – Cộng Đồng Bảo Vệ Quyền Lợi Khách Hàng</p>
+                </div>
+              </div>
+            </div>
+            <div class="mt-6 pt-6 border-t border-gray-100">
+              <a href="https://www.facebook.com/groups/bvqlkhbhnt/?ref=share&mibextid=NSMWBT"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 class="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium">
+                <i class="ri-facebook-line mr-2"></i>
+                Tham gia Cộng Đồng Bảo Vệ Quyền Lợi Khách Hàng
+                <i class="ri-external-link-line ml-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-6 fade-in delay-2">
+          <div class="bg-gradient-to-br from-red-50 to-red-100 p-6 rounded-2xl text-center">
+            <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="ri-shield-check-line text-white text-2xl"></i>
+            </div>
+            <h4 class="font-bold text-2xl text-gray-900 mb-2">5+</h4>
+            <p class="text-gray-600">Năm kinh nghiệm</p>
+          </div>
+          <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl text-center">
+            <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="ri-group-line text-white text-2xl"></i>
+            </div>
+            <h4 class="font-bold text-2xl text-gray-900 mb-2">500+</h4>
+            <p class="text-gray-600">Khách hàng tin tưởng</p>
+          </div>
+          <div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-2xl text-center">
+            <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="ri-award-line text-white text-2xl"></i>
+            </div>
+            <h4 class="font-bold text-2xl text-gray-900 mb-2">Top 10</h4>
+            <p class="text-gray-600">Tư vấn viên xuất sắc</p>
+          </div>
+          <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-2xl text-center">
+            <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="ri-customer-service-2-line text-white text-2xl"></i>
+            </div>
+            <h4 class="font-bold text-2xl text-gray-900 mb-2">24/7</h4>
+            <p class="text-gray-600">Hỗ trợ tận tâm</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16 fade-in">
+        <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">Dịch vụ</h2>
+        <p class="text-lg text-gray-600">Cung cấp giải pháp tài chính toàn diện, giúp bạn xây dựng tương lai vững chắc</p>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 fade-in delay-1">
+        <div class="p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition bg-white">
+          <div class="w-14 h-14 rounded-xl bg-red-100 text-red-600 flex items-center justify-center mb-5">
+            <i class="ri-shield-check-line text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3 text-gray-900">Bảo vệ tài chính toàn diện</h3>
+          <p class="text-gray-600 mb-4">Tư vấn giải pháp thông minh bảo vệ tài sản, dòng tiền, thu nhập, tạo di sản.</p>
+          <span class="inline-block text-xs font-semibold uppercase tracking-wide text-red-600">Chuyên nghiệp</span>
+        </div>
+        <div class="p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition bg-white">
+          <div class="w-14 h-14 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mb-5">
+            <i class="ri-line-chart-line text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3 text-gray-900">Kế hoạch đầu tư thông minh</h3>
+          <p class="text-gray-600 mb-4">Xây dựng kế hoạch tài chính tích lũy, đầu tư hợp lý, an toàn.</p>
+          <span class="inline-block text-xs font-semibold uppercase tracking-wide text-blue-600">Chuyên nghiệp</span>
+        </div>
+        <div class="p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition bg-white">
+          <div class="w-14 h-14 rounded-xl bg-green-100 text-green-600 flex items-center justify-center mb-5">
+            <i class="ri-file-search-line text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3 text-gray-900">Review hợp đồng bảo hiểm</h3>
+          <p class="text-gray-600 mb-4">Đảm bảo quyền lợi đầy đủ và tối ưu phương án hiện tại.</p>
+          <span class="inline-block text-xs font-semibold uppercase tracking-wide text-green-600">Chuyên nghiệp</span>
+        </div>
+        <div class="p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition bg-white">
+          <div class="w-14 h-14 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center mb-5">
+            <i class="ri-discuss-line text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3 text-gray-900">Tư vấn chuyên sâu</h3>
+          <p class="text-gray-600 mb-4">Giải đáp điều khoản, quyền lợi, loại trừ minh bạch.</p>
+          <span class="inline-block text-xs font-semibold uppercase tracking-wide text-purple-600">Chuyên nghiệp</span>
+        </div>
+          <div class="p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition bg-white">
+            <div class="w-14 h-14 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center mb-5">
+              <i class="ri-file-list-3-line text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-gray-900">Hỗ trợ thủ tục</h3>
+            <p class="text-gray-600 mb-4">Hồ sơ y tế & bồi thường xử lý rõ – nhanh – chuẩn.</p>
+            <span class="inline-block text-xs font-semibold uppercase tracking-wide text-amber-600">Chuyên nghiệp</span>
+          </div>
+          <div class="p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition bg-white">
+            <div class="w-14 h-14 rounded-xl bg-teal-100 text-teal-600 flex items-center justify-center mb-5">
+              <i class="ri-heart-2-line text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-gray-900">Chăm sóc khách hàng</h3>
+            <p class="text-gray-600 mb-4">Đồng hành trọn vòng đời hợp đồng & nhu cầu phát sinh.</p>
+            <span class="inline-block text-xs font-semibold uppercase tracking-wide text-teal-600">Chuyên nghiệp</span>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16 fade-in">
+        <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">Liên hệ</h2>
+        <p class="text-lg text-gray-600">Kết nối ngay – tôi phản hồi rõ ràng, không làm phiền</p>
+      </div>
+      <div class="contact-grid">
+        <div class="bg-white p-10 rounded-3xl shadow-lg border border-gray-100 fade-in delay-1 flex flex-col justify-between">
+          <div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-6">Thông tin liên hệ</h3>
+            <ul class="space-y-4 text-gray-700 mb-8">
+              <li><strong class="text-gray-900">Họ tên:</strong> Nguyễn Thanh Phong</li>
+              <li><strong class="text-gray-900">Điện thoại:</strong> <a class="text-red-600 hover:underline" href="tel:0967140556">0967 140 556</a></li>
+              <li><strong class="text-gray-900">Email:</strong> <a class="text-red-600 hover:underline" href="mailto:nguyenphong.tfac@gmail.com">nguyenphong.tfac@gmail.com</a></li>
+              <li><strong class="text-gray-900">Công ty:</strong> AIA Việt Nam</li>
+              <li><strong class="text-gray-900">Khu vực:</strong> TP. Hồ Chí Minh & lân cận</li>
+            </ul>
+            <div class="bg-gradient-to-r from-[#D4001A] to-[#A80016] text-white p-6 rounded-2xl text-base leading-relaxed shadow-md">
+              Đồng hành xây dựng kế hoạch tài chính vững chắc, bảo vệ gia đình và tạo dựng tương lai an toàn.
+            </div>
+          </div>
+        </div>
+        <div class="cta-panel fade-in delay-2">
+          <h3 class="text-3xl lg:text-4xl mb-6">Hãy bắt đầu hành trình tài chính thông minh hôm nay</h3>
+          <p class="text-[1.05rem] text-red-100 leading-relaxed mb-8 max-w-xl">
+            Chỉ một cuộc gọi hoặc tin nhắn – tôi giúp bạn soi rõ nhu cầu, cấu trúc quyền lợi và tránh lỗ hổng tài chính không đáng có.
+          </p>
+          <ul class="cta-bullets space-y-4 mb-28">
+            <li><span class="dot"></span>Phân tích minh bạch – Không ép buộc</li>
+            <li><span class="dot"></span>Tối ưu quyền lợi theo dòng tiền gia đình</li>
+            <li><span class="dot"></span>Hỗ trợ sự kiện bảo hiểm 24/7</li>
+          </ul>
+          <div class="mini-icon-row">
+            <a href="tel:0967140556" class="btn-icon btn-icon--phone" title="Gọi">
+              <i class="ri-phone-line"></i><span class="sr-only">Gọi điện</span>
+            </a>
+            <a href="https://zalo.me/0967140556" target="_blank" rel="noopener" class="btn-icon btn-icon--zalo" title="Zalo">
+              <svg viewBox="0 0 48 48" aria-hidden="true">
+                <defs>
+                  <linearGradient id="zaloGrad2" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+                    <stop offset="0" stop-color="#0A81FF"/><stop offset="1" stop-color="#056BDA"/>
+                  </linearGradient>
+                </defs>
+                <rect x="4" y="4" width="40" height="40" rx="12" fill="url(#zaloGrad2)"/>
+                <path fill="#fff" d="M30.6 17.2h-2.83l-4.41 11.2h2.83l.84-2.34h3.84l.85 2.34h2.9L30.6 17.2Zm-2.24 6.9 1.3-3.56 1.31 3.56h-2.61ZM16.2 28.58c.61.59 1.48.96 2.5.96 2.01 0 3.6-1.4 3.6-3.29 0-1.9-1.59-3.3-3.6-3.3s-3.6 1.4-3.6 3.3c0 .86.35 1.65.93 2.24l-.65 1.95c-.1.34.23.62.53.44l1.89-1.07Zm2.5-1.52c-.86 0-1.48-.56-1.48-1.43s.62-1.43 1.48-1.43 1.48.56 1.48 1.43-.62 1.43-1.48 1.43Z"/>
+              </svg>
+              <span class="sr-only">Zalo</span>
+            </a>
+            <a href="https://www.facebook.com/share/17NsPC5BhG/" target="_blank" rel="noopener" class="btn-icon btn-icon--facebook" title="Facebook">
+              <i class="ri-facebook-fill"></i><span class="sr-only">Facebook</span>
+            </a>
+          </div>
+          <div class="absolute inset-x-0 bottom-0 h-28 pointer-events-none"
+               style="background:linear-gradient(to top, rgba(0,0,0,.28), transparent); border-bottom-left-radius:30px;border-bottom-right-radius:30px;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="grid md:grid-cols-4 gap-12">
+        <div>
+          <div class="flex items-center mb-4">
+            <div class="w-10 h-10 bg-gradient-to-r from-[#D4001A] to-[#B80018] rounded-full flex items-center justify-center mr-3">
+              <span class="text-white font-bold text-lg">NP</span>
+            </div>
+            <span class="font-bold text-lg text-gray-800">Nguyễn Thanh Phong</span>
+          </div>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            Tư vấn viên AIA Việt Nam - Đồng hành cùng bạn xây dựng kế hoạch tài chính vững chắc.
+          </p>
+        </div>
+        <div>
+          <h4 class="font-semibold text-gray-900 mb-4">Điều hướng</h4>
+          <ul class="space-y-2 text-sm text-gray-600">
+            <li><button data-target="home" class="hover:text-red-600">Trang chủ</button></li>
+            <li><button data-target="about" class="hover:text-red-600">Về tôi</button></li>
+            <li><button data-target="services" class="hover:text-red-600">Dịch vụ</button></li>
+            <li><a href="congcu.html" class="hover:text-red-600">Công Cụ</a></li>
+            <li><a href="sanpham.html" class="hover:text-red-600">Sản phẩm</a></li>
+            <li><a href="kehoach-taichinh.html" class="hover:text-red-600">Kế hoạch tài chính</a></li>
+            <li><button data-target="contact" class="hover:text-red-600">Liên hệ</button></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold text-gray-900 mb-4">Liên hệ</h4>
+          <ul class="space-y-2 text-sm text-gray-600">
+            <li>Điện thoại: <a href="tel:0967140556" class="text-red-600 hover:underline">0967 140 556</a></li>
+            <li>Email: <a href="mailto:nguyenphong.tfac@gmail.com" class="text-red-600 hover:underline">nguyenphong.tfac@gmail.com</a></li>
+            <li>Khu vực: TP. Hồ Chí Minh & lân cận</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold text-gray-900 mb-4">Cam kết</h4>
+          <p class="text-sm text-gray-600 leading-relaxed">
+            Minh bạch – Chuyên nghiệp – Đồng hành dài hạn – Tối ưu quyền lợi.
+          </p>
+        </div>
+      </div>
+      <div class="mt-12 pt-8 border-t border-gray-100 text-center">
+        <p class="text-sm text-gray-500">
+          © 2025 Nguyễn Thanh Phong • AIA Việt Nam
+        </p>
+        <p class="text-xs text-gray-400 mt-2">Phiên bản tái tạo nội dung – Không phải trang chính thức của AIA</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating icon buttons -->
+  <div class="fixed bottom-6 right-6 floating-stack">
+    <a href="tel:0967140556" class="btn-icon btn-icon--phone" title="Gọi">
+      <i class="ri-phone-line"></i><span class="sr-only">Gọi điện</span>
+    </a>
+    <a href="https://zalo.me/0967140556" class="btn-icon btn-icon--zalo" title="Zalo" target="_blank" rel="noopener">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <defs>
+          <linearGradient id="zaloGrad3" x1="0" y1="0" x2="48" y2="48">
+            <stop offset="0" stop-color="#0A81FF"/><stop offset="1" stop-color="#056BDA"/>
+          </linearGradient>
+        </defs>
+        <rect x="4" y="4" width="40" height="40" rx="12" fill="url(#zaloGrad3)"/>
+        <path fill="#fff" d="M30.6 17.2h-2.83l-4.41 11.2h2.83l.84-2.34h3.84l.85 2.34h2.9L30.6 17.2Zm-2.24 6.9 1.3-3.56 1.31 3.56h-2.61ZM16.2 28.58c.61.59 1.48.96 2.5.96 2.01 0 3.6-1.4 3.6-3.29 0-1.9-1.59-3.3-3.6-3.3s-3.6 1.4-3.6 3.3c0 .86.35 1.65.93 2.24l-.65 1.95c-.1.34.23.62.53.44l1.89-1.07Zm2.5-1.52c-.86 0-1.48-.56-1.48-1.43s.62-1.43 1.48-1.43 1.48.56 1.48 1.43-.62 1.43-1.48 1.43Z"/>
+      </svg>
+      <span class="sr-only">Zalo</span>
+    </a>
+    <a href="https://www.facebook.com/share/17NsPC5BhG/" class="btn-icon btn-icon--facebook" title="Facebook" target="_blank" rel="noopener">
+      <i class="ri-facebook-fill"></i><span class="sr-only">Facebook</span>
+    </a>
+  </div>
+
+  <script>
+    const mobileToggle = document.getElementById('mobileToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileToggle?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+    function scrollToId(id){
+      const el = document.getElementById(id);
+      if(el) window.scrollTo({ top: el.offsetTop - 70, behavior: 'smooth' });
+    }
+    document.addEventListener('click', (e)=>{
+      const btn = e.target.closest('[data-target]');
+      if(btn){
+        const id = btn.getAttribute('data-target');
+          scrollToId(id);
+          document.querySelectorAll('#mainNavButtons button, #mainNavButtons a').forEach(b=>{
+            b.classList.remove('nav-btn-active');
+            b.classList.add('nav-btn');
+            if(b.getAttribute('data-target')===id){
+              b.classList.add('nav-btn-active');
+              b.classList.remove('nav-btn');
+            }
+          });
+          if(window.innerWidth < 768){
+            mobileMenu.classList.add('hidden');
+          }
+      }
+    });
+
+    const observer = new IntersectionObserver(entries=>{
+      entries.forEach(en=>{
+        if(en.isIntersecting){
+          en.target.classList.add('in-view');
+        }
+      });
+    }, { threshold:.08 });
+    document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+    
+    window.addEventListener('load', () => {
+        if (window.location.hash) {
+            const id = window.location.hash.substring(1);
+            const el = document.getElementById(id);
+            if (el) {
+                setTimeout(() => {
+                    scrollToId(id);
+                }, 100);
+            }
+        }
+    });
+  </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
