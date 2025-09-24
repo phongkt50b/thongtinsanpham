@@ -28,22 +28,29 @@
     .image-placeholder {
       position: relative;
     }
+    /* Lightbox Styles */
+    #lightbox-image.is-zoomed {
+        cursor: grab;
+    }
+    #lightbox-image.is-dragging {
+        cursor: grabbing;
+    }
   </style>
 </head>
 <body class="antialiased min-h-screen bg-gray-50">
 
   <main class="py-12">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">Sản phẩm và Giải pháp</h2>
-        <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+      <div class="mb-16">
+        <h2 class="text-3xl lg:text-4xl font-bold text-red-600 mb-6">Sản phẩm và Giải pháp</h2>
+        <p class="text-lg text-gray-600 max-w-3xl">
           Khám phá các giải pháp bảo hiểm toàn diện của AIA, được thiết kế để bảo vệ bạn và gia đình trước mọi rủi ro, đồng thời xây dựng một tương lai tài chính vững chắc.
         </p>
       </div>
 
       <!-- Company Intro Section -->
       <div class="mb-16">
-        <h3 class="text-3xl font-bold text-gray-800 mb-8 border-l-4 border-red-600 pl-4">Giới thiệu về AIA Việt Nam</h3>
+        <h3 class="text-2xl lg:text-3xl font-bold text-red-600 mb-8 border-l-4 border-red-600 pl-4">Giới thiệu về AIA Việt Nam</h3>
         <div id="company-intro-image">
            <!-- Images loaded by JS -->
         </div>
@@ -51,26 +58,26 @@
 
       <!-- Main Products Section -->
       <div class="mb-16">
-        <h3 class="text-3xl font-bold text-gray-800 mb-8 border-l-4 border-red-600 pl-4">Sản phẩm chính</h3>
+        <h3 class="text-2xl lg:text-3xl font-bold text-red-600 mb-8 border-l-4 border-red-600 pl-4">Sản phẩm chính</h3>
         <div class="space-y-4" id="main-products-accordion">
           <div class="accordion-item bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-            <button class="accordion-header w-full flex justify-between items-center text-left p-5 text-lg font-semibold text-gray-800 hover:bg-red-50 focus:outline-none transition-colors" aria-expanded="false" aria-controls="main-prod-1"><span>1. Khoẻ Trọn Vẹn</span><i class="ri-arrow-down-s-line"></i></button>
+            <button class="accordion-header w-full flex justify-between items-center text-left p-5 text-lg font-semibold text-gray-800 hover:bg-red-50 focus:outline-none transition-colors" aria-expanded="false" aria-controls="main-prod-1"><span>1. BH Liên Kết Chung - AIA Khoẻ Trọn Vẹn - Bảo vệ dài lâu, tích lũy tối ưu</span><i class="ri-arrow-down-s-line"></i></button>
             <div id="main-prod-1" class="accordion-content"></div>
           </div>
           <div class="accordion-item bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-            <button class="accordion-header w-full flex justify-between items-center text-left p-5 text-lg font-semibold text-gray-800 hover:bg-red-50 focus:outline-none transition-colors" aria-expanded="false" aria-controls="main-prod-2"><span>2. Khoẻ Bình An</span><i class="ri-arrow-down-s-line"></i></button>
+            <button class="accordion-header w-full flex justify-between items-center text-left p-5 text-lg font-semibold text-gray-800 hover:bg-red-50 focus:outline-none transition-colors" aria-expanded="false" aria-controls="main-prod-2"><span>2. BH Liên Kết Chung - AIA Khoẻ Bình An - Tối ưu bảo vệ tài chính</span><i class="ri-arrow-down-s-line"></i></button>
             <div id="main-prod-2" class="accordion-content"></div>
           </div>
           <div class="accordion-item bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-            <button class="accordion-header w-full flex justify-between items-center text-left p-5 text-lg font-semibold text-gray-800 hover:bg-red-50 focus:outline-none transition-colors" aria-expanded="false" aria-controls="main-prod-3"><span>3. Vững Tương Lai</span><i class="ri-arrow-down-s-line"></i></button>
+            <button class="accordion-header w-full flex justify-between items-center text-left p-5 text-lg font-semibold text-gray-800 hover:bg-red-50 focus:outline-none transition-colors" aria-expanded="false" aria-controls="main-prod-3"><span>3. BH Liên Kết Chung - AIA Vững Tương Lai - Cân bằng tích lũy và bảo vệ tài chính</span><i class="ri-arrow-down-s-line"></i></button>
             <div id="main-prod-3" class="accordion-content"></div>
           </div>
           <div class="accordion-item bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-            <button class="accordion-header w-full flex justify-between items-center text-left p-5 text-lg font-semibold text-gray-800 hover:bg-red-50 focus:outline-none transition-colors" aria-expanded="false" aria-controls="main-prod-4"><span>4. An Bình Ưu Việt</span><i class="ri-arrow-down-s-line"></i></button>
+            <button class="accordion-header w-full flex justify-between items-center text-left p-5 text-lg font-semibold text-gray-800 hover:bg-red-50 focus:outline-none transition-colors" aria-expanded="false" aria-controls="main-prod-4"><span>4. BH Tử Kỳ</span><i class="ri-arrow-down-s-line"></i></button>
             <div id="main-prod-4" class="accordion-content"></div>
           </div>
           <div class="accordion-item bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-            <button class="accordion-header w-full flex justify-between items-center text-left p-5 text-lg font-semibold text-gray-800 hover:bg-red-50 focus:outline-none transition-colors" aria-expanded="false" aria-controls="main-prod-5"><span>5. Trọn Tâm An</span><i class="ri-arrow-down-s-line"></i></button>
+            <button class="accordion-header w-full flex justify-between items-center text-left p-5 text-lg font-semibold text-gray-800 hover:bg-red-50 focus:outline-none transition-colors" aria-expanded="false" aria-controls="main-prod-5"><span>5. Trọn Tâm An - Gói sản phẩm bảo vệ sức khoẻ 10 năm</span><i class="ri-arrow-down-s-line"></i></button>
             <div id="main-prod-5" class="accordion-content"></div>
           </div>
         </div>
@@ -78,7 +85,7 @@
 
       <!-- Rider Products Section -->
       <div>
-        <h3 class="text-3xl font-bold text-gray-800 mb-8 border-l-4 border-red-600 pl-4">Sản phẩm bán kèm (Rider)</h3>
+        <h3 class="text-2xl lg:text-3xl font-bold text-red-600 mb-8 border-l-4 border-red-600 pl-4">Sản phẩm bán kèm</h3>
         <div class="space-y-4" id="rider-products-accordion">
           <div class="accordion-item bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
             <button class="accordion-header w-full flex justify-between items-center text-left p-5 text-lg font-semibold text-gray-800 hover:bg-red-50 focus:outline-none transition-colors" aria-expanded="false" aria-controls="rider-prod-1"><span>1. Thẻ sức khoẻ Bùng Gia Lực</span><i class="ri-arrow-down-s-line"></i></button>
@@ -105,6 +112,19 @@
     </div>
   </main>
   
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50 hidden cursor-zoom-out" aria-hidden="true">
+    <button id="lightbox-close" class="absolute top-4 right-6 text-white text-5xl font-bold z-50 leading-none hover:opacity-75" aria-label="Đóng">&times;</button>
+    <div class="relative w-full h-full flex items-center justify-center">
+        <img id="lightbox-image" src="" alt="Hình ảnh phóng to" class="max-w-[95vw] max-h-[90vh] transition-transform duration-200" style="transform-origin: center center;">
+    </div>
+    <div id="lightbox-zoom-controls" class="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center space-x-2 bg-gray-900 bg-opacity-60 rounded-full px-4 py-2">
+        <button id="zoom-out" class="text-white text-3xl font-bold leading-none w-8 h-8 flex items-center justify-center hover:bg-gray-700 rounded-full" aria-label="Thu nhỏ">-</button>
+        <span id="zoom-level" class="text-white text-sm font-semibold w-16 text-center" aria-live="polite">100%</span>
+        <button id="zoom-in" class="text-white text-3xl font-bold leading-none w-8 h-8 flex items-center justify-center hover:bg-gray-700 rounded-full" aria-label="Phóng to">+</button>
+    </div>
+  </div>
+
   <script id="image-config-data" type="application/json">
 {
   "company-intro-image": [
@@ -328,7 +348,7 @@
                     ${imageFiles.map(src => `
                         <div class="image-placeholder bg-gray-200 rounded-lg min-h-[200px] flex justify-center items-center overflow-hidden">
                             <div class="spinner animate-spin rounded-full h-8 w-8 border-b-2 border-red-500"></div>
-                            <img data-src="images/${src}" alt="Hình ảnh sản phẩm" class="lazy-image absolute w-full h-full object-cover opacity-0 transition-opacity duration-500">
+                            <img data-src="images/${src}" alt="Hình ảnh sản phẩm" class="lazy-image product-image cursor-pointer absolute w-full h-full object-cover opacity-0 transition-opacity duration-500">
                         </div>
                     `).join('')}
                 </div>
@@ -369,7 +389,6 @@
         `;
         
         const updateAccordionHeight = () => {
-            // Only update if the accordion is expanded
             if (container.style.maxHeight && container.style.maxHeight !== '0px') {
                 requestAnimationFrame(() => {
                     container.style.maxHeight = container.scrollHeight + 'px';
@@ -418,7 +437,7 @@
         if (imageFiles.length > 0) {
             const imagesHtml = imageFiles.map(file => `
                 <div class="image-container-intro">
-                    <img src="images/${file}" alt="Hình ảnh giới thiệu" class="rounded-lg shadow-md w-full h-auto" loading="lazy" onerror="this.parentElement.style.display='none'">
+                    <img src="images/${file}" alt="Hình ảnh giới thiệu" class="rounded-lg shadow-md w-full h-auto product-image cursor-pointer" loading="lazy" onerror="this.parentElement.style.display='none'">
                 </div>
             `).join('');
             container.innerHTML = `
@@ -431,10 +450,130 @@
         }
     }
 
+    function initLightbox() {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightbox-image');
+        const closeBtn = document.getElementById('lightbox-close');
+        const zoomInBtn = document.getElementById('zoom-in');
+        const zoomOutBtn = document.getElementById('zoom-out');
+        const zoomLevelSpan = document.getElementById('zoom-level');
+
+        if (!lightbox || !lightboxImage || !closeBtn || !zoomInBtn || !zoomOutBtn) return;
+        
+        let currentScale = 1;
+        let isDragging = false;
+        let startX, startY, posX, posY;
+
+        const updateTransform = () => {
+            lightboxImage.style.transform = `translate(${posX}px, ${posY}px) scale(${currentScale})`;
+            zoomLevelSpan.textContent = `${Math.round(currentScale * 100)}%`;
+            if(currentScale > 1) {
+                lightboxImage.classList.add('is-zoomed');
+            } else {
+                lightboxImage.classList.remove('is-zoomed');
+            }
+        };
+
+        const resetState = () => {
+            currentScale = 1;
+            isDragging = false;
+            posX = 0;
+            posY = 0;
+            updateTransform();
+        };
+
+        const openLightbox = (imgElement) => {
+            lightboxImage.src = imgElement.src;
+            lightbox.classList.remove('hidden');
+            lightbox.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            resetState();
+        };
+
+        const closeLightbox = () => {
+            lightbox.classList.add('hidden');
+            lightbox.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+            lightboxImage.src = ''; // Clear src to stop loading if in progress
+        };
+        
+        document.body.addEventListener('click', (e) => {
+            if (e.target.classList.contains('product-image')) {
+                openLightbox(e.target);
+            }
+        });
+
+        closeBtn.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) { // Close only if clicking the background
+                closeLightbox();
+            }
+        });
+
+        zoomInBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentScale = Math.min(currentScale * 1.2, 5); // Max zoom 500%
+            updateTransform();
+        });
+
+        zoomOutBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentScale = Math.max(currentScale / 1.2, 0.5); // Min zoom 50%
+            if(currentScale <= 1) { // Reset position when zooming out to fit
+                 posX = 0;
+                 posY = 0;
+            }
+            updateTransform();
+        });
+
+        lightboxImage.addEventListener('mousedown', (e) => {
+            if (currentScale > 1) {
+                e.preventDefault();
+                isDragging = true;
+                startX = e.clientX - posX;
+                startY = e.clientY - posY;
+                lightboxImage.classList.add('is-dragging');
+            }
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                e.preventDefault();
+                posX = e.clientX - startX;
+                posY = e.clientY - startY;
+                updateTransform();
+            }
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+            lightboxImage.classList.remove('is-dragging');
+        });
+
+        lightbox.addEventListener('wheel', (e) => {
+           if (!e.target.closest('#lightbox-zoom-controls')) {
+             e.preventDefault();
+             const zoomFactor = 1.1;
+             if (e.deltaY < 0) { // Zoom in
+                 currentScale = Math.min(currentScale * zoomFactor, 5);
+             } else { // Zoom out
+                 currentScale = Math.max(currentScale / zoomFactor, 0.5);
+             }
+             if(currentScale <= 1) {
+                 posX = 0;
+                 posY = 0;
+             }
+             updateTransform();
+           }
+        });
+    }
+
+
     window.addEventListener('DOMContentLoaded', () => {
         loadCompanyIntro();
         setupAccordion('main-products-accordion');
         setupAccordion('rider-products-accordion');
+        initLightbox();
     });
   </script>
 </body>
